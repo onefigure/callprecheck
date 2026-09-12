@@ -54,6 +54,7 @@ npm run images   # public/ 의 파비콘·로고·OG 이미지 재생성
 | `PUBLIC_ANALYTICS_ID` | (없음) | 측정 ID |
 | `PUBLIC_ENABLE_ADS` | `false` | **Phase 1에서는 반드시 false** |
 | `PUBLIC_ADSENSE_CLIENT` | (없음) | AdSense 게시자 ID |
+| `PUBLIC_NOINDEX_ALL` | `false` | `true` 면 전 페이지 noindex + robots.txt 전체 차단. 임시 주소 운영용 |
 
 `PUBLIC_ENABLE_ADS` 와 `PUBLIC_ADSENSE_CLIENT` 가 **둘 다** 설정된 경우에만 AdSense 스크립트가 출력됩니다. 광고 슬롯(빈 광고 박스)은 어떤 페이지에도 없습니다.
 
@@ -119,6 +120,27 @@ npm run cf:deploy:staging   # callprecheck-staging 워커로 배포
 | `PUBLIC_ENABLE_ANALYTICS` / `PUBLIC_ENABLE_ADS` | `false` (Phase 1) | `false` |
 
 `.env` 는 `.gitignore` 에 포함되어 있어 저장소에 올라가지 않습니다.
+
+### 실제 도메인을 붙이기 전 (임시 workers.dev 주소)
+
+도메인을 아직 등록하지 않았다면, 사이트는 `https://callprecheck.<계정>.workers.dev` 에서 동작합니다. 이때 Build variables 를 아래처럼 둡니다.
+
+```
+PUBLIC_SITE_URL   = https://callprecheck.<계정>.workers.dev
+PUBLIC_NOINDEX_ALL = true
+```
+
+- `PUBLIC_SITE_URL` 을 임시 주소로 맞추지 않으면 canonical·sitemap·og:url 이 아직 존재하지 않는 도메인을 가리킵니다.
+- `PUBLIC_NOINDEX_ALL=true` 는 임시 주소가 검색엔진에 색인되는 것을 막습니다. 나중에 실제 도메인으로 옮길 때 정리할 거리가 생기지 않습니다.
+
+실제 도메인을 연결한 뒤에는 **두 변수를 원래대로 되돌리고 재배포**합니다.
+
+```
+PUBLIC_SITE_URL   = https://callprecheck.com
+PUBLIC_NOINDEX_ALL = (삭제 또는 false)
+```
+
+AdSense 는 본인이 소유한 도메인을 요구하므로, 신청은 실제 도메인을 연결한 뒤에 합니다.
 
 ### 커스텀 도메인 연결
 

@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { SITE } from '../consts';
+import { FLAGS, SITE } from '../consts';
 
 /**
  * robots.txt
@@ -12,7 +12,13 @@ import { SITE } from '../consts';
 export const GET: APIRoute = ({ site }) => {
   const base = (site ?? new URL(SITE.url)).href.replace(/\/$/, '');
 
-  const body = `User-agent: *
+  // 임시 주소에 올려 둔 동안에는 크롤링 자체를 막는다.
+  // 실제 도메인으로 옮기면 PUBLIC_NOINDEX_ALL 을 지워 원래 정책으로 돌아간다.
+  const body = FLAGS.noindexAll
+    ? `User-agent: *
+Disallow: /
+`
+    : `User-agent: *
 Allow: /
 
 Sitemap: ${base}/sitemap.xml

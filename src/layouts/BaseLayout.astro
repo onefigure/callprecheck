@@ -31,7 +31,8 @@ const path = canonicalPath ?? Astro.url.pathname;
 const canonical = new URL(path, siteUrl).href;
 const ogImage = new URL('/og-default.png', siteUrl).href;
 const fullTitle = `${title} | ${SITE.name}`;
-const robots = noindex ? 'noindex,follow' : 'index,follow';
+// 임시 주소에 올려 둔 동안(FLAGS.noindexAll)에는 모든 페이지를 색인 대상에서 제외한다.
+const robots = noindex || FLAGS.noindexAll ? 'noindex,follow' : 'index,follow';
 ---
 
 <!doctype html>
