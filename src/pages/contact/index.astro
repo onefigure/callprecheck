@@ -1,0 +1,135 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { CONTACT_EMAIL } from '../../consts';
+
+const inquiryTypes = [
+  '내용 오류 제보',
+  '오래된 정보 신고',
+  '다뤄 주었으면 하는 증상 제안',
+  '사이트 이용 중 발생한 문제',
+  '기타 문의',
+];
+---
+
+<PageLayout
+  title="문의하기"
+  description="부르기전에에 내용 오류를 제보하거나 다뤄 주었으면 하는 증상을 제안하실 수 있습니다. 문의는 이메일로 접수됩니다."
+  h1="문의하기"
+  lead="내용의 오류, 오래된 정보, 추가로 다뤄 주었으면 하는 증상에 대한 제보를 환영합니다."
+  crumbs={[{ label: '문의하기' }]}
+>
+  <div class="note note--info">
+    <p class="note__title">문의가 처리되는 방식</p>
+    <p>
+      아래 양식은 별도의 서버로 내용을 보내지 않습니다. 작성한 내용을 이용자의 메일 프로그램에
+      옮겨 담아 <code>{CONTACT_EMAIL}</code> 앞으로 보낼 수 있도록 도와주는 방식입니다. 메일
+      프로그램이 열리지 않는 환경이라면 해당 주소로 직접 보내 주셔도 됩니다.
+    </p>
+  </div>
+
+  <form id="contact-form" novalidate>
+    <div class="field">
+      <label for="type">문의 유형</label>
+      <select id="type" name="type" required>
+        {inquiryTypes.map((t) => <option value={t}>{t}</option>)}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="email">회신받을 이메일</label>
+      <input id="email" name="email" type="email" autocomplete="email" required />
+      <span class="field__hint">
+        회신이 필요한 경우에만 적어 주세요. 메일 본문에 함께 들어갑니다.
+      </span>
+    </div>
+
+    <div class="field">
+      <label for="subject">제목</label>
+      <input id="subject" name="subject" type="text" required />
+    </div>
+
+    <div class="field">
+      <label for="message">내용</label>
+      <textarea id="message" name="message" required></textarea>
+      <span class="field__hint">
+        어떤 페이지의 어떤 문장인지 함께 적어 주시면 확인이 빠릅니다. 주민등록번호, 카드번호 등
+        민감한 정보는 적지 말아 주세요.
+      </span>
+    </div>
+
+    {/* 스팸 방지용 숨김 항목. 사람이 채우지 않는 칸이며, 채워져 있으면 전송하지 않는다. */}
+    <div class="hp-field" aria-hidden="true">
+      <label for="company">회사명 (입력하지 마세요)</label>
+      <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <button class="btn" type="submit">메일 프로그램으로 작성하기</button>
+    <p class="field__hint" id="contact-status" role="status"></p>
+  </form>
+
+  <h2>회신에 대해</h2>
+  <p>
+    보내 주신 내용은 확인 후 필요한 경우 콘텐츠를 수정합니다. 다만 회신 시점을 미리 약속드리지
+    않습니다. 개인이 운영하는 정보 사이트이므로 지킬 수 없는 응답 시간을 적어 두지 않는 편이
+    정확하다고 판단했습니다.
+  </p>
+
+  <h2>이런 문의는 도움드리기 어렵습니다</h2>
+  <ul class="x-list">
+    <li>특정 제품의 고장 원인을 대신 판정해 달라는 요청 — 실물 점검 없이는 판단할 수 없습니다.</li>
+    <li>수리비가 적정한지 확인해 달라는 요청 — 근거 없이 금액을 판단하지 않습니다.</li>
+    <li>수리 업체나 기사를 연결해 달라는 요청 — 중개를 하지 않습니다.</li>
+    <li>분해·배선·냉매 작업 방법 문의 — 안전상 안내하지 않습니다.</li>
+  </ul>
+  <p>
+    제품별 접수와 요금은 각 제조사 고객지원에서 확인하실 수 있습니다. 관련 안내는
+    <a href="/repair-or-replace/">수리할까 교체할까</a> 페이지에 정리되어 있습니다.
+  </p>
+
+  <p>
+    개인정보를 어떻게 다루는지는 <a href="/privacy/">개인정보처리방침</a>에서 확인하실 수
+    있습니다.
+  </p>
+</PageLayout>
+
+<script is:inline define:vars={{ contactEmail: CONTACT_EMAIL }}>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('contact-status');
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+
+    // 스팸 방지: 숨김 항목이 채워져 있으면 아무것도 하지 않는다.
+    if (String(data.get('company') ?? '').trim() !== '') return;
+
+    const type = String(data.get('type') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const subject = String(data.get('subject') ?? '').trim();
+    const message = String(data.get('message') ?? '').trim();
+
+    if (!subject || !message) {
+      status.textContent = '제목과 내용을 입력해 주세요.';
+      return;
+    }
+
+    const body = [
+      `문의 유형: ${type}`,
+      `회신 이메일: ${email || '(입력하지 않음)'}`,
+      '',
+      message,
+    ].join('\n');
+
+    const href =
+      'mailto:' +
+      contactEmail +
+      '?subject=' +
+      encodeURIComponent(`[${type}] ${subject}`) +
+      '&body=' +
+      encodeURIComponent(body);
+
+    status.textContent =
+      '메일 프로그램을 여는 중입니다. 창이 열리지 않으면 ' + contactEmail + ' 으로 직접 보내 주세요.';
+    window.location.href = href;
+  });
+</script>

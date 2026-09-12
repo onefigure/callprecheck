@@ -1,0 +1,29 @@
+---
+import type { Source } from '../data/sources';
+
+interface Props {
+  sources: Source[];
+  /** 자료의 성격을 설명하는 한 줄. 페이지마다 다르게 넣는다. */
+  note?: string;
+}
+
+const { sources, note } = Astro.props;
+---
+
+<section class="sources" aria-labelledby="sources-heading">
+  <h2 id="sources-heading">확인 자료</h2>
+  {note && <p class="muted">{note}</p>}
+  <ul>
+    {
+      sources.map((s) => (
+        <li>
+          <a class="external" href={s.url} target="_blank" rel="noopener noreferrer">
+            {s.name}
+          </a>{' '}
+          — {s.page}{' '}
+          <span class="checked-at">({s.checkedAt} 확인)</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>

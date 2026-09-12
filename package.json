@@ -1,0 +1,29 @@
+{
+  "name": "callprecheck",
+  "version": "1.0.0",
+  "private": true,
+  "description": "부르기전에 (CallPrecheck) — 수리기사 부르기 전, 먼저 확인하세요.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "linkcheck": "node scripts/check-links.mjs",
+    "images": "node scripts/generate-images.mjs",
+    "cf:dev": "astro build && wrangler dev --env=\"\"",
+    "cf:deploy": "astro build && wrangler deploy --env=\"\"",
+    "cf:deploy:staging": "astro build && wrangler deploy --env staging",
+    "cf:versions": "astro build && wrangler versions upload --env=\"\""
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^8.0.1",
+    "astro": "^7.3.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.131.1"
+  }
+}

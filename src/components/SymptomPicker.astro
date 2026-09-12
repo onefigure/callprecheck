@@ -1,0 +1,129 @@
+---
+import { PRODUCT_FLOWS } from '../data/diagnosis';
+
+/**
+ * 홈 첫 화면의 진단 시작 지점.
+ *
+ * 홈에서는 진단을 끝내지 않는다. 제품과 첫 증상만 고르고
+ * /diagnosis/?product=..&symptom=.. 로 이어지며, 안전 확인(Step 0)은
+ * 진단 페이지에서 그대로 가장 먼저 수행된다.
+ *
+ * 자바스크립트가 없으면 세 제품의 목록이 모두 보이고 링크도 그대로 동작한다.
+ */
+---
+
+<div class="picker" data-picker data-enhanced="false">
+  <p class="picker__step">1. 제품을 고르세요</p>
+
+  <div class="picker__tabs" role="tablist" aria-label="제품 선택">
+    {
+      PRODUCT_FLOWS.map((product, i) => (
+        <button
+          class="picker__tab"
+          type="button"
+          role="tab"
+          id={`picker-tab-${product.id}`}
+          aria-controls={`picker-panel-${product.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          data-tab={product.id}
+        >
+          {product.label}
+        </button>
+      ))
+    }
+  </div>
+
+  <p class="picker__step">2. 증상을 고르세요</p>
+
+  {
+    PRODUCT_FLOWS.map((product) => (
+      <div
+        class="picker__panel"
+        id={`picker-panel-${product.id}`}
+        role="tabpanel"
+        aria-labelledby={`picker-tab-${product.id}`}
+        data-panel={product.id}
+      >
+        <h3 class="picker__panel-title">{product.label}</h3>
+        <p class="picker__lead">
+          고르면 안전 확인부터 순서대로 진행합니다. 입력한 내용은 저장되지 않습니다.
+        </p>
+        <ul class="picker__list">
+          {product.symptoms.map((symptom) => (
+            <li>
+              <a
+                class="picker__symptom"
+                href={`/diagnosis/?product=${product.id}&symptom=${symptom.id}`}
+                data-symptom={symptom.id}
+                data-symptom-product={product.id}
+              >
+                <span class="picker__symptom-label">{symptom.label}</span>
+                <span class="picker__symptom-desc">{symptom.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  const picker = document.querySelector<HTMLElement>('[data-picker]');
+
+  if (picker) {
+    const tabs = Array.from(picker.querySelectorAll<HTMLButtonElement>('[data-tab]'));
+    const panels = Array.from(picker.querySelectorAll<HTMLElement>('[data-panel]'));
+
+    // 히어로 오른쪽 질문 화면도 같은 제품으로 맞춰 준다.
+    const previewGroup = document.querySelector<HTMLElement>('[data-preview-group]');
+    const previews = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-preview]'),
+    );
+
+    function activate(productId: string) {
+      tabs.forEach((tab) =>
+        tab.setAttribute('aria-selected', String(tab.dataset.tab === productId)),
+      );
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.panel !== productId;
+      });
+      previews.forEach((preview) => {
+        preview.hidden = preview.dataset.preview !== productId;
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        const id = tab.dataset.tab;
+        if (!id) return;
+        activate(id);
+        window.cpTrack('product_selected', { product: id, source: 'home' });
+      });
+
+      tab.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+        event.preventDefault();
+        const step = event.key === 'ArrowRight' ? 1 : -1;
+        const next = tabs[(index + step + tabs.length) % tabs.length];
+        next.focus();
+        next.click();
+      });
+    });
+
+    picker.querySelectorAll<HTMLAnchorElement>('[data-symptom]').forEach((link) => {
+      link.addEventListener('click', () => {
+        window.cpTrack('symptom_selected', {
+          product: link.dataset.symptomProduct ?? '',
+          symptom: link.dataset.symptom ?? '',
+          source: 'home',
+        });
+      });
+    });
+
+    // 자바스크립트가 동작할 때만 탭 방식으로 바꾼다.
+    picker.dataset.enhanced = 'true';
+    if (previewGroup) previewGroup.dataset.enhanced = 'true';
+    if (tabs[0]?.dataset.tab) activate(tabs[0].dataset.tab);
+  }
+</script>

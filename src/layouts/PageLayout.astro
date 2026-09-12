@@ -1,0 +1,64 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import type { Crumb } from '../components/Breadcrumbs.astro';
+import { SITE } from '../consts';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  lead?: string;
+  crumbs: Crumb[];
+  noindex?: boolean;
+  ogType?: 'website' | 'article';
+  /** 페이지 고유 JSON-LD 를 추가할 때 사용 */
+  schema?: Record<string, unknown>[];
+  /** 본문 폭을 넓게 써야 하는 페이지에서 false 로 둔다. */
+  prose?: boolean;
+}
+
+const {
+  title,
+  description,
+  h1,
+  lead,
+  crumbs,
+  noindex = false,
+  ogType = 'website',
+  schema = [],
+  prose = true,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL(SITE.url);
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [{ label: '홈', href: '/' }, ...crumbs].map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.label,
+    item: new URL(c.href ?? Astro.url.pathname, siteUrl).href,
+  })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  noindex={noindex}
+  ogType={ogType}
+  schema={[breadcrumbSchema, ...schema]}
+>
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <div class={prose ? 'prose' : undefined}>
+      <header class="page-head">
+        <h1>{h1}</h1>
+        {lead && <p class="lead">{lead}</p>}
+      </header>
+      <slot />
+    </div>
+  </div>
+</BaseLayout>

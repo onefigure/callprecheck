@@ -1,0 +1,130 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getProductHub } from '../../data/products';
+import { SITE } from '../../consts';
+
+/**
+ * Phase 2 증상 가이드 페이지.
+ * src/content/guides/ 에 파일이 없으면 어떤 경로도 생성되지 않는다.
+ */
+export async function getStaticPaths() {
+  const guides = await getCollection('guides', ({ data }) => !data.draft);
+  return guides.map((entry) => ({
+    params: { product: entry.data.product, slug: entry.data.slug ?? entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'guides'> };
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const hub = getProductHub(entry.data.product);
+
+const COST_CONFIDENCE_LABEL = {
+  official: { text: '공식 공개가격', badge: 'badge--ok' },
+  'verified-data': { text: '검증된 데이터', badge: 'badge--ok' },
+  'reference-range': { text: '근거 있는 참고 범위', badge: 'badge--warn' },
+  unknown: { text: '공개된 금액 없음', badge: '' },
+} as const;
+
+const SAFETY_LABEL = {
+  low: { text: '일반 확인 범위', badge: 'badge--ok' },
+  caution: { text: '주의 필요', badge: 'badge--warn' },
+  'stop-use': { text: '사용 중지 기준 포함', badge: 'badge--danger' },
+} as const;
+
+const cost = COST_CONFIDENCE_LABEL[entry.data.cost_confidence];
+const safety = SAFETY_LABEL[entry.data.safety_level];
+
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+const siteUrl = Astro.site ?? new URL(SITE.url);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.title,
+  description: entry.data.summary,
+  inLanguage: 'ko-KR',
+  dateModified: fmt(entry.data.last_reviewed),
+  author: { '@type': 'Person', name: entry.data.author },
+  publisher: { '@type': 'Organization', name: SITE.name, url: siteUrl.href },
+  mainEntityOfPage: new URL(Astro.url.pathname, siteUrl).href,
+};
+---
+
+<PageLayout
+  title={entry.data.title}
+  description={entry.data.summary}
+  h1={entry.data.title}
+  lead={entry.data.summary}
+  ogType="article"
+  crumbs={[
+    { label: hub?.label ?? entry.data.product, href: hub?.href ?? `/${entry.data.product}/` },
+    { label: entry.data.title },
+  ]}
+  schema={[articleSchema]}
+>
+  <p class="meta-line">
+    <span class={`badge ${safety.badge}`.trim()}>{safety.text}</span>
+    <span class={`badge ${cost.badge}`.trim()}>비용 근거: {cost.text}</span>
+    <span>최종 검토일 {fmt(entry.data.last_reviewed)}</span>
+    <span>작성 {entry.data.author}</span>
+    {entry.data.reviewer && <span>검토 {entry.data.reviewer}</span>}
+  </p>
+
+  <Content />
+
+  <section class="sources">
+    <h2>확인 자료</h2>
+    <ul>
+      {
+        entry.data.sources.map((s) => (
+          <li>
+            <a class="external" href={s.url} target="_blank" rel="noopener noreferrer">
+              {s.name}
+            </a>{' '}
+            <span class="checked-at">({fmt(s.checked_at)} 확인)</span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="muted">
+      동일 증상이라도 모델과 연식에 따라 원인이 다를 수 있습니다. 본 사이트는 전문 수리를
+      대신하지 않으며, 확인 가능한 자료와 제한된 범위의 판단 기준을 제공합니다. 작성 원칙은
+      <a href="/editorial-policy/">정보 작성 기준</a>에서 확인하실 수 있습니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>이 다음에 보면 좋은 것</h2>
+    <ul>
+      {
+        entry.data.next_questions ? (
+          entry.data.next_questions.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        ) : (
+          <>
+            <li>
+              <a href={`/diagnosis/?product=${entry.data.product}`}>
+                같은 증상으로 진단 질문 진행하기
+              </a>
+            </li>
+            {hub && (
+              <li>
+                <a href={hub.href}>{hub.label} 확인 범위와 서비스 기준 보기</a>
+              </li>
+            )}
+            <li>
+              <a href="/repair-or-replace/">수리할지 교체할지 판단 기준 보기</a>
+            </li>
+          </>
+        )
+      }
+    </ul>
+  </section>
+</PageLayout>

@@ -1,0 +1,39 @@
+---
+import { FOOTER_NAV, INDEPENDENCE_NOTICE, SITE } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__cols">
+      <div class="site-footer__brand">
+        <a class="brand" href="/">
+          <span class="brand__ko">{SITE.name}</span>
+          <span class="brand__en">{SITE.nameEn}</span>
+        </a>
+        <p>{SITE.tagline}</p>
+      </div>
+      {
+        FOOTER_NAV.map((group) => (
+          <div>
+            <h2>{group.title}</h2>
+            <ul>
+              {group.links.map((link) => (
+                <li>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="site-footer__notice">{INDEPENDENCE_NOTICE}</p>
+    <p class="site-footer__copy">
+      © {year} {SITE.name} ({SITE.nameEn}). 본 사이트의 정보는 참고용이며 전문 수리 서비스를
+      대신하지 않습니다.
+    </p>
+  </div>
+</footer>

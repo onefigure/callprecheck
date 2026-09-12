@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PRODUCT_HUBS } from '../data/products';
+---
+
+<BaseLayout
+  title="페이지를 찾을 수 없습니다"
+  description="요청하신 주소의 페이지를 찾을 수 없습니다. 고장 진단, 제품별 정보, 안전 안내로 이동하실 수 있습니다."
+  noindex
+>
+  <div class="container prose section">
+    <h1>페이지를 찾을 수 없습니다</h1>
+    <p class="lead">
+      주소가 바뀌었거나, 입력하신 주소에 오타가 있을 수 있습니다. 아래에서 필요한 내용을 바로
+      찾아보세요.
+    </p>
+
+    <h2>자주 찾는 페이지</h2>
+    <ul>
+      <li><a href="/">홈으로 이동</a></li>
+      <li><a href="/diagnosis/">고장 진단 — 안전 확인부터 시작</a></li>
+      {
+        PRODUCT_HUBS.map((hub) => (
+          <li>
+            <a href={hub.href}>{hub.label} — 확인 범위와 서비스 기준</a>
+          </li>
+        ))
+      }
+      <li><a href="/repair-or-replace/">수리할까 교체할까</a></li>
+      <li><a href="/safety/">안전 안내</a></li>
+      <li><a href="/guides/">가이드</a></li>
+    </ul>
+
+    <p>
+      찾으시던 내용이 없다면 <a href="/contact/">문의하기</a>로 알려 주세요. 어떤 주소에서
+      오셨는지 함께 적어 주시면 확인에 도움이 됩니다.
+    </p>
+  </div>
+</BaseLayout>

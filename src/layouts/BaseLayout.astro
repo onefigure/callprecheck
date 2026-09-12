@@ -1,0 +1,157 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { FLAGS, SITE } from '../consts';
+
+interface Props {
+  /** <title> 에 쓰일 문구. 브랜드명은 자동으로 붙는다. */
+  title: string;
+  description: string;
+  /** true 면 noindex,follow 를 출력한다. (진단 결과 등) */
+  noindex?: boolean;
+  /** canonical 경로를 직접 지정해야 할 때만 사용 */
+  canonicalPath?: string;
+  ogType?: 'website' | 'article';
+  /** JSON-LD 구조화 데이터 */
+  schema?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  noindex = false,
+  canonicalPath,
+  ogType = 'website',
+  schema = [],
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL(SITE.url);
+const path = canonicalPath ?? Astro.url.pathname;
+const canonical = new URL(path, siteUrl).href;
+const ogImage = new URL('/og-default.png', siteUrl).href;
+const fullTitle = `${title} | ${SITE.name}`;
+const robots = noindex ? 'noindex,follow' : 'index,follow';
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={robots} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${SITE.name} — ${SITE.tagline}`} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    {
+      /* 본문 가독성용 한글 폰트.
+         필요한 글자 범위만 내려받는 dynamic subset 이고 font-display: swap 이다.
+         렌더링을 막지 않도록 비동기로 적용하며, 실패해도 시스템 폰트로 그대로 읽힌다. */
+    }
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
+      />
+    </noscript>
+
+    {
+      /* Google Search Console: HTML 메타태그 방식 소유권 확인.
+         환경변수가 비어 있으면 태그 자체가 출력되지 않는다. */
+    }
+    {
+      FLAGS.gscVerification && (
+        <meta name="google-site-verification" content={FLAGS.gscVerification} />
+      )
+    }
+
+    {
+      schema.map((item) => (
+        <script type="application/ld+json" set:html={JSON.stringify(item)} />
+      ))
+    }
+
+    {
+      /* 웹 분석: PUBLIC_ENABLE_ANALYTICS=true 이고 측정 ID 가 있을 때만 로드한다. */
+    }
+    {
+      FLAGS.analytics && (
+        <script
+          is:inline
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${FLAGS.analyticsId}`}
+        />
+      )
+    }
+    {
+      FLAGS.analytics && (
+        <script
+          is:inline
+          set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${FLAGS.analyticsId}',{anonymize_ip:true});`}
+        />
+      )
+    }
+
+    {
+      /* AdSense: Phase 1 에서는 PUBLIC_ENABLE_ADS=false 이므로 출력되지 않는다.
+         승인 신청 단계에서만 환경변수를 켠다. 빈 광고 영역은 어디에도 두지 않는다. */
+    }
+    {
+      FLAGS.ads && (
+        <script
+          is:inline
+          async
+          crossorigin="anonymous"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${FLAGS.adsenseClient}`}
+        />
+      )
+    }
+
+    <script is:inline>
+      // 분석 이벤트 헬퍼. 분석이 꺼져 있으면 아무 일도 하지 않는다.
+      // 개인정보가 이벤트명이나 파라미터에 들어가지 않도록 문자열 상수만 전달한다.
+      window.cpTrack = function (name, params) {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', name, params || {});
+        }
+      };
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

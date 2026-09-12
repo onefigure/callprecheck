@@ -1,0 +1,120 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Sources from '../../components/Sources.astro';
+import { getCollection } from 'astro:content';
+import { PRODUCT_HUBS, type ProductHub } from '../../data/products';
+import { getProductFlow } from '../../data/diagnosis';
+
+export function getStaticPaths() {
+  return PRODUCT_HUBS.map((hub) => ({ params: { product: hub.id }, props: { hub } }));
+}
+
+type Props = { hub: ProductHub };
+
+const { hub } = Astro.props;
+const flow = getProductFlow(hub.id);
+
+const guides = (
+  await getCollection('guides', ({ data }) => !data.draft && data.product === hub.id)
+).sort((a, b) => b.data.last_reviewed.valueOf() - a.data.last_reviewed.valueOf());
+
+const noteClass = {
+  info: 'note note--info',
+  warn: 'note note--warn',
+  danger: 'note note--danger',
+} as const;
+
+const listClass = {
+  check: 'check-list',
+  x: 'x-list',
+  plain: '',
+} as const;
+---
+
+<PageLayout
+  title={hub.metaTitle}
+  description={hub.metaDescription}
+  h1={hub.h1}
+  crumbs={[{ label: hub.label }]}
+>
+  {hub.intro.map((p) => <p>{p}</p>)}
+
+  <p>
+    <a class="btn" href={`/diagnosis/?product=${hub.id}`}>{hub.label} 증상 확인하기</a>
+  </p>
+
+  {
+    flow && (
+      <section aria-labelledby="symptoms">
+        <h2 id="symptoms">이 사이트가 다루는 {hub.label} 증상</h2>
+        <p>
+          아래 증상은 진단 도구에서 질문을 통해 다음 행동을 정리할 수 있는 항목입니다. 증상을
+          고르면 안전 확인부터 순서대로 진행됩니다.
+        </p>
+        <ul>
+          {flow.symptoms.map((s) => (
+            <li>
+              <strong>{s.label}</strong> — {s.description}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    hub.sections.map((section) => (
+      <section>
+        <h2>{section.heading}</h2>
+        {section.paragraphs?.map((p) => <p>{p}</p>)}
+        {section.list && (
+          <ul class={listClass[section.listStyle ?? 'plain']}>
+            {section.list.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        )}
+        {section.note && (
+          <div class={noteClass[section.note.tone]}>
+            <p class="note__title">{section.note.title}</p>
+            <p>{section.note.body}</p>
+          </div>
+        )}
+      </section>
+    ))
+  }
+
+  {
+    /* 가이드 글이 실제로 있을 때만 목록을 만든다. Phase 1 에서는 렌더링되지 않는다. */
+    guides.length > 0 && (
+      <section aria-labelledby="guides">
+        <h2 id="guides">{hub.label} 증상 가이드</h2>
+        <ul>
+          {guides.map((guide) => (
+            <li>
+              <a href={`/${guide.data.product}/${guide.data.slug ?? guide.id}/`}>
+                {guide.data.title}
+              </a>
+              <br />
+              <span class="muted">{guide.data.summary}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section>
+    <h2>다음 단계</h2>
+    <ul>
+      <li><a href={`/diagnosis/?product=${hub.id}`}>{hub.label} 고장 진단 시작하기</a></li>
+      <li><a href="/repair-or-replace/">수리할지 교체할지 판단 기준 보기</a></li>
+      <li><a href="/safety/">안전 안내에서 확인 가능한 범위 보기</a></li>
+    </ul>
+  </section>
+
+  <Sources
+    sources={hub.sources}
+    note="이 페이지는 아래 자료에서 소비자가 직접 확인하도록 안내하는 범위와 공개된 기준을 참고해 작성했습니다. 모델별 조치는 해당 제품의 설명서와 제조사 고객지원이 우선합니다."
+  />
+</PageLayout>

@@ -1,0 +1,25 @@
+---
+export interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+const all: Crumb[] = [{ label: '홈', href: '/' }, ...items];
+---
+
+<nav class="breadcrumbs" aria-label="현재 위치">
+  <ol>
+    {
+      all.map((c) => (
+        <li>
+          {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
