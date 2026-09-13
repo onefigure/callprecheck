@@ -1,6 +1,6 @@
 ---
 title: 냉장고가 안 시원할 때, AS 부르기 전 확인할 순서
-slug: not-cold
+url_slug: not-cold
 product: refrigerator
 symptom: weak-cooling
 search_intent: 냉장고가 시원하지 않은데 고장인지 아닌지, 음식을 옮겨야 하는지, 지금 기사를 불러야 하는지 판단하고 싶다

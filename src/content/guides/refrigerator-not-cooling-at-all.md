@@ -1,6 +1,6 @@
 ---
 title: 냉장·냉동이 모두 안 될 때, 기다려도 되는 경우와 바로 점검할 경우
-slug: not-cooling-at-all
+url_slug: not-cooling-at-all
 product: refrigerator
 symptom: both-fail
 search_intent: 냉장고 전체가 시원하지 않은데 기다리면 되는 상황인지 바로 서비스를 불러야 하는지 판단하고 싶다

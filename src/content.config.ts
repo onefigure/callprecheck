@@ -30,8 +30,13 @@ const guides = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
-    /** URL 에 쓸 슬러그. 생략하면 파일명을 사용한다. */
-    slug: z.string().optional(),
+    /**
+     * URL 에 쓸 슬러그. 생략하면 파일명을 사용한다.
+     * 주의: frontmatter 의 `slug` 는 Astro 가 컬렉션 전역 고유 id 로 예약해 두었다.
+     * 제품이 달라도 값이 같으면 한쪽 항목이 사라지므로 `url_slug` 를 쓴다.
+     * (예: /aircon/water-leak/ 과 /refrigerator/water-leak/ 를 동시에 만들려면 필수)
+     */
+    url_slug: z.string().optional(),
     product: z.enum(['washer', 'aircon', 'refrigerator']),
     /** 진단 Wizard 의 증상 id 와 맞추면 결과 화면에서 관련 가이드로 연결된다. */
     symptom: z.string(),

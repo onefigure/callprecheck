@@ -1,6 +1,6 @@
 ---
 title: 세탁기에 물이 안 들어올 때, 수도부터 거꾸로 따라가세요
-slug: not-filling
+url_slug: not-filling
 product: washer
 symptom: fill-fail
 search_intent: 세탁기에 물이 안 들어오는 이유를 찾고, 직접 확인할 수 있는 범위인지 서비스가 필요한지 판단하고 싶다

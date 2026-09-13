@@ -1,6 +1,6 @@
 ---
 title: 세탁기가 동작 중 갑자기 멈출 때, 어느 단계에서 멈췄는지가 답입니다
-slug: stops-running
+url_slug: stops-running
 product: washer
 symptom: no-power
 search_intent: 세탁기가 돌다가 갑자기 멈추는 이유를 찾고, 직접 확인할 수 있는지 서비스가 필요한지 판단하고 싶다

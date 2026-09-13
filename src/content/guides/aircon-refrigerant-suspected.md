@@ -1,6 +1,6 @@
 ---
 title: 에어컨 냉매 부족이 의심될 때, 확인할 신호와 절대 하지 말아야 할 것
-slug: refrigerant-suspected
+url_slug: refrigerant-suspected
 product: aircon
 symptom: weak-cooling
 search_intent: 에어컨 냉매가 부족한지 확인하고 싶고, 가스 충전을 해야 하는지 판단하고 싶다

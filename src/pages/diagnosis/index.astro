@@ -12,7 +12,7 @@ const relatedGuides = guides.map((g) => ({
   summary: g.data.summary,
   product: g.data.product,
   symptom: g.data.symptom,
-  url: `/${g.data.product}/${g.data.slug ?? g.id}/`,
+  url: `/${g.data.product}/${g.data.url_slug ?? g.id}/`,
 }));
 
 const levels: { level: keyof typeof LEVEL_META; meaning: string }[] = [

@@ -1,6 +1,6 @@
 ---
 title: 에어컨 실외기가 안 돌아갈 때, 바로 고장이라고 보면 안 되는 경우
-slug: outdoor-unit-not-running
+url_slug: outdoor-unit-not-running
 product: aircon
 symptom: outdoor-unit
 search_intent: 에어컨을 켰는데 실외기가 돌지 않는데 고장인지, 기다리면 되는 것인지 판단하고 싶다

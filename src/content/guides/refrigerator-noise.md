@@ -1,6 +1,6 @@
 ---
 title: 냉장고 웅·드르륵·딱딱 소리, 정상 소음과 고장 신호 구분법
-slug: noise
+url_slug: noise
 product: refrigerator
 symptom: noise
 search_intent: 냉장고에서 나는 소리가 원래 나는 소리인지 고장인지 구분하고, 서비스를 불러야 하는지 판단하고 싶다

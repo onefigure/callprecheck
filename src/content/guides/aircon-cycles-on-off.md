@@ -1,6 +1,6 @@
 ---
 title: 에어컨이 켜졌다 꺼졌다 반복할 때, 정상 제어와 전원 문제 구분법
-slug: cycles-on-off
+url_slug: cycles-on-off
 product: aircon
 symptom: cycling
 search_intent: 에어컨이 자꾸 꺼지거나 켜졌다 꺼졌다 반복하는 이유를 찾고, 고장인지 판단하고 싶다

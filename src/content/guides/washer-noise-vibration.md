@@ -1,6 +1,6 @@
 ---
 title: 세탁기에서 쿵쿵·드르륵 소리가 날 때, 정상 작동음과 고장 신호 구분법
-slug: noise-vibration
+url_slug: noise-vibration
 product: washer
 symptom: vibration
 search_intent: 세탁기에서 나는 소리와 진동이 원래 나는 소리인지 고장 신호인지 구분하고 싶다

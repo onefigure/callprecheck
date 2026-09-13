@@ -11,7 +11,7 @@ import { SITE } from '../../consts';
 export async function getStaticPaths() {
   const guides = await getCollection('guides', ({ data }) => !data.draft);
   return guides.map((entry) => ({
-    params: { product: entry.data.product, slug: entry.data.slug ?? entry.id },
+    params: { product: entry.data.product, slug: entry.data.url_slug ?? entry.id },
     props: { entry },
   }));
 }

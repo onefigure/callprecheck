@@ -1,6 +1,6 @@
 ---
 title: 세탁기에서 물이 샐 때, 사용을 멈춰야 하는 누수는 어떤 것인가
-slug: leaking
+url_slug: leaking
 product: washer
 symptom: leak
 search_intent: 세탁기에서 물이 새는데 그냥 써도 되는 수준인지, 당장 멈춰야 하는지 판단하고 싶다

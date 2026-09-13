@@ -1,6 +1,6 @@
 ---
 title: 세탁기 탈수 중 자꾸 멈추고 시간이 늘어날 때, 고장일까요?
-slug: spin-stops
+url_slug: spin-stops
 product: washer
 symptom: spin-fail
 search_intent: 탈수 도중 세탁기가 멈추거나 남은 시간이 계속 늘어나는데 정상 동작인지 고장인지 구분하고 싶다

@@ -1,6 +1,6 @@
 ---
 title: 냉동은 되는데 냉장만 안 될 때, 고장보다 먼저 의심할 것
-slug: freezer-ok-fridge-warm
+url_slug: freezer-ok-fridge-warm
 product: refrigerator
 symptom: freezer-ok-fridge-not
 search_intent: 냉동실은 잘 얼는데 냉장실만 미지근한 이유를 알고, 수리를 불러야 하는지 판단하고 싶다

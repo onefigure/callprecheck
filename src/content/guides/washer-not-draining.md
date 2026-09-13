@@ -1,6 +1,6 @@
 ---
 title: 세탁기 물이 안 빠질 때, 세탁기 문제인지 하수구 문제인지 먼저 가르세요
-slug: not-draining
+url_slug: not-draining
 product: washer
 symptom: drain-fail
 search_intent: 세탁기 물이 안 빠지는데 세탁기 고장인지 하수구 문제인지 구분하고, 직접 해결 가능한 범위인지 판단하고 싶다

@@ -257,7 +257,7 @@ interface SymptomFlow {
 ```yaml
 ---
 title: 세탁기 탈수가 안 될 때 먼저 확인할 것
-slug: washer-spin-fail          # 생략하면 파일명이 URL
+url_slug: spin-fail             # 생략하면 파일명이 URL (`slug` 는 Astro 예약어라 사용 금지)
 product: washer                 # washer | aircon | refrigerator
 symptom: spin-fail              # 진단 엔진의 증상 id 와 맞추면 결과 화면에 연결됨
 search_intent: 고장인지 사용 문제인지 구분하고 싶다

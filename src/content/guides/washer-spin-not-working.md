@@ -1,6 +1,6 @@
 ---
 title: 세탁기 탈수가 안 될 때, AS 부르기 전 확인 순서
-slug: spin-not-working
+url_slug: spin-not-working
 product: washer
 symptom: spin-fail
 search_intent: 세탁기 탈수가 안 되는데 고장인지 사용 문제인지 구분하고, 지금 기사를 불러야 하는지 판단하고 싶다

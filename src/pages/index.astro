@@ -180,7 +180,7 @@ const principles = [
           {guides.slice(0, 6).map((guide) => (
             <a
               class="card card-link"
-              href={`/${guide.data.product}/${guide.data.slug ?? guide.id}/`}
+              href={`/${guide.data.product}/${guide.data.url_slug ?? guide.id}/`}
             >
               <h3>{guide.data.title}</h3>
               <p class="muted">{guide.data.summary}</p>

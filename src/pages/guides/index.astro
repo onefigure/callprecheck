@@ -88,7 +88,7 @@ const byProduct = PRODUCT_HUBS.map((hub) => ({
           <ul>
             {items.map((guide) => (
               <li>
-                <a href={`/${guide.data.product}/${guide.data.slug ?? guide.id}/`}>
+                <a href={`/${guide.data.product}/${guide.data.url_slug ?? guide.id}/`}>
                   {guide.data.title}
                 </a>
                 <br />

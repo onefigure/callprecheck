@@ -1,6 +1,6 @@
 ---
 title: 에어컨은 켜지는데 시원하지 않을 때, 18도로 낮추기 전에 볼 것
-slug: weak-cooling
+url_slug: weak-cooling
 product: aircon
 symptom: weak-cooling
 search_intent: 에어컨이 켜지고 바람도 나오는데 냉방이 약한 이유를 찾고, 서비스를 불러야 하는지 판단하고 싶다

@@ -11,8 +11,9 @@
 # ─────────────────────────────────────────────────────────────
 
 title: 세탁기 탈수가 안 될 때 먼저 확인할 것
-# slug 를 생략하면 파일명이 URL 이 된다. 한글 파일명 대신 slug 를 쓰는 편이 안전하다.
-slug: washer-spin-fail
+# url_slug 를 생략하면 파일명이 URL 이 된다.
+# frontmatter 의 `slug` 는 Astro 예약어이므로 반드시 `url_slug` 를 쓴다.
+url_slug: spin-fail
 # washer | aircon | refrigerator
 product: washer
 # src/data/diagnosis/<product>.ts 의 증상 id 와 맞추면

@@ -1,6 +1,6 @@
 ---
 title: 에어컨 찬바람이 안 나올 때, 냉매부터 의심하면 안 되는 이유
-slug: not-cooling
+url_slug: not-cooling
 product: aircon
 symptom: no-cold-air
 search_intent: 에어컨에서 찬바람이 안 나오는데 냉매를 충전해야 하는지, 아니면 다른 원인인지 판단하고 싶다

@@ -1,6 +1,6 @@
 ---
 title: 에어컨에서 물이 떨어질 때, 정상 배수와 누수 고장 구분하는 법
-slug: water-leak
+url_slug: water-leak
 product: aircon
 symptom: water-drip
 search_intent: 에어컨에서 물이 떨어지는데 정상적인 현상인지 고장인지 구분하고, 서비스를 불러야 하는지 판단하고 싶다
