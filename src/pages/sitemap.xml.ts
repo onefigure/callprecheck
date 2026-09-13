@@ -34,7 +34,7 @@ export const GET: APIRoute = async ({ site }) => {
   const entries: { loc: string; lastmod?: string }[] = [
     ...staticPaths.map((path) => ({ loc: new URL(path, base).href })),
     ...guides.map((guide) => ({
-      loc: new URL(`/${guide.data.product}/${guide.data.slug ?? guide.id}/`, base).href,
+      loc: new URL(`/${guide.data.product}/${guide.data.url_slug ?? guide.id}/`, base).href,
       lastmod: guide.data.last_reviewed.toISOString().slice(0, 10),
     })),
   ];

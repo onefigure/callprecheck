@@ -1,14 +1,16 @@
 /**
- * 빌드 결과(dist/)의 내부 링크와 정적 파일 참조를 검사한다.
+ * 빌드 결과(dist/)의 내부 링크, 정적 파일 참조, sitemap.xml 을 검사한다.
  *
  *   npm run build && npm run linkcheck
  *
  * - 내부 링크가 실제 파일로 해석되는지 확인한다.
  * - trailing slash 정책(항상 붙임)을 지키는지 확인한다.
+ * - sitemap.xml 의 URL이 실제 빌드된 페이지인지 확인한다.
+ * - 색인 대상(noindex 아님)인데 sitemap 에 빠진 페이지를 찾는다.
  * - 외부 링크는 네트워크 요청 없이 목록만 출력한다.
  */
-import { readdir, readFile, stat } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { readdir, readFile } from 'node:fs/promises';
+import { existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const DIST = 'dist';
@@ -23,6 +25,14 @@ async function walk(dir) {
   return out;
 }
 
+function isDir(p) {
+  try {
+    return statSync(p).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
 function resolveInternal(href) {
   const clean = href.split('#')[0].split('?')[0];
   if (clean === '') return null;
@@ -34,14 +44,6 @@ function resolveInternal(href) {
     path.join(DIST, `${rel}.html`),
   ];
   return candidates.find((c) => existsSync(c) && !isDir(c)) ?? null;
-}
-
-function isDir(p) {
-  try {
-    return require('node:fs').statSync(p).isDirectory();
-  } catch {
-    return false;
-  }
 }
 
 const files = (await walk(DIST)).filter((f) => f.endsWith('.html'));
@@ -92,6 +94,51 @@ if (slashIssues.length) {
 console.log(`\n외부 링크 ${external.size}개 (네트워크 검사 안 함)`);
 for (const url of [...external].sort()) console.log(`  ${url}`);
 
-const failed = broken.length + slashIssues.length;
-console.log(failed === 0 ? '\n내부 링크 오류 0건' : `\n오류 ${failed}건`);
+// ── sitemap.xml 검증 ──────────────────────────────────────────
+// HTML 안의 링크만 보면 sitemap 의 잘못된 URL을 놓친다.
+// (실제로 frontmatter 필드명을 바꾸면서 sitemap 만 옛 필드를 참조해
+//  존재하지 않는 URL 24개가 들어간 적이 있다.)
+const sitemapPath = path.join(DIST, 'sitemap.xml');
+const sitemapBroken = [];
+const missingFromSitemap = [];
+let sitemapCount = 0;
+
+if (existsSync(sitemapPath)) {
+  const sitemapXml = await readFile(sitemapPath, 'utf8');
+  const locs = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  sitemapCount = locs.length;
+
+  for (const loc of locs) {
+    if (!resolveInternal(new URL(loc).pathname)) sitemapBroken.push(loc);
+  }
+
+  // 색인 대상인데 sitemap 에 빠진 페이지. noindex 페이지는 제외한다.
+  for (const file of files) {
+    const html = await readFile(file, 'utf8');
+    if (/<meta name="robots" content="[^"]*noindex/.test(html)) continue;
+
+    const pathname = file
+      .split(path.sep)
+      .join('/')
+      .replace(new RegExp(`^${DIST}`), '')
+      .replace(/\/index\.html$/, '/')
+      .replace(/\.html$/, '');
+
+    if (!sitemapXml.includes(`${pathname}</loc>`)) missingFromSitemap.push(pathname);
+  }
+}
+
+console.log(`\nsitemap.xml URL ${sitemapCount}개 검사`);
+if (sitemapBroken.length) {
+  console.log(`  존재하지 않는 페이지를 가리킴 ${sitemapBroken.length}개`);
+  for (const loc of sitemapBroken) console.log(`    ${loc}`);
+}
+if (missingFromSitemap.length) {
+  console.log(`  색인 대상인데 sitemap 에 없음 ${missingFromSitemap.length}개`);
+  for (const pn of missingFromSitemap) console.log(`    ${pn}`);
+}
+
+const failed =
+  broken.length + slashIssues.length + sitemapBroken.length + missingFromSitemap.length;
+console.log(failed === 0 ? '\n내부 링크·sitemap 오류 0건' : `\n오류 ${failed}건`);
 process.exit(failed === 0 ? 0 : 1);
