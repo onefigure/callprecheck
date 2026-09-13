@@ -2,6 +2,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_SITE_URL?: string;
   readonly PUBLIC_CONTACT_EMAIL?: string;
   readonly PUBLIC_GSC_VERIFICATION?: string;
+  readonly PUBLIC_NAVER_VERIFICATION?: string;
   readonly PUBLIC_ENABLE_ANALYTICS?: string;
   readonly PUBLIC_ANALYTICS_ID?: string;
   readonly PUBLIC_ENABLE_ADS?: string;

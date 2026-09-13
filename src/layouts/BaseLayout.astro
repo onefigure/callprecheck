@@ -93,6 +93,11 @@ const robots = noindex || FLAGS.noindexAll ? 'noindex,follow' : 'index,follow';
         <meta name="google-site-verification" content={FLAGS.gscVerification} />
       )
     }
+    {
+      FLAGS.naverVerification && (
+        <meta name="naver-site-verification" content={FLAGS.naverVerification} />
+      )
+    }
 
     {
       schema.map((item) => (

@@ -102,6 +102,7 @@ export const FLAGS = {
     Boolean(import.meta.env.PUBLIC_ANALYTICS_ID),
   analyticsId: import.meta.env.PUBLIC_ANALYTICS_ID || '',
   gscVerification: import.meta.env.PUBLIC_GSC_VERIFICATION || '',
+  naverVerification: import.meta.env.PUBLIC_NAVER_VERIFICATION || '',
   /**
    * 임시 주소(workers.dev 등)에 올려 둔 동안 색인을 막는 스위치.
    * true 면 모든 페이지에 noindex 를 붙이고 robots.txt 로도 크롤링을 막는다.
