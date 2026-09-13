@@ -20,7 +20,7 @@ export const SITE = {
 
 /** 문의 메일 주소 (환경변수로 교체 가능) */
 export const CONTACT_EMAIL: string =
-  import.meta.env.PUBLIC_CONTACT_EMAIL || 'contact@callprecheck.com';
+  import.meta.env.PUBLIC_CONTACT_EMAIL || '15991175@naver.com';
 
 /** 상단 내비게이션 */
 export const MAIN_NAV = [

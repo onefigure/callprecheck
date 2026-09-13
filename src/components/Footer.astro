@@ -1,5 +1,5 @@
 ---
-import { FOOTER_NAV, INDEPENDENCE_NOTICE, SITE } from '../consts';
+import { CONTACT_EMAIL, FOOTER_NAV, INDEPENDENCE_NOTICE, SITE } from '../consts';
 
 const year = new Date().getFullYear();
 ---
@@ -31,6 +31,9 @@ const year = new Date().getFullYear();
     </div>
 
     <p class="site-footer__notice">{INDEPENDENCE_NOTICE}</p>
+    <p class="site-footer__operator">
+      운영 {SITE.name} ({SITE.nameEn}) · 개인 운영 · 문의 <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+    </p>
     <p class="site-footer__copy">
       © {year} {SITE.name} ({SITE.nameEn}). 본 사이트의 정보는 참고용이며 전문 수리 서비스를
       대신하지 않습니다.
