@@ -754,6 +754,11 @@ small {
   gap: 0.4rem 1rem;
   align-items: center;
 }
+.home-hero__foot a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 
 /* ── 홈: 제품/증상 선택기 ─────────────────────────────────── */
 
@@ -1023,6 +1028,298 @@ small {
   flex-wrap: wrap;
   gap: 0.6rem;
   margin: 1.25rem 0 0;
+}
+
+/* ── 진단 마법사 ─────────────────────────────────────────── */
+
+.wizard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+.wizard:focus {
+  outline: none;
+}
+.wizard__progress {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.2rem 1rem;
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+.wizard__progress span:first-child {
+  font-weight: 700;
+  color: var(--accent);
+}
+.wizard__question {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  line-height: 1.45;
+}
+.wizard__hint {
+  margin: 0 0 1.1rem;
+  color: var(--text-muted);
+  font-size: 0.96rem;
+}
+.wizard__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+.wizard__nav .btn {
+  flex: 1 1 8rem;
+}
+
+/* 선택지 — 항목 전체가 터치 영역이 되도록 한다. */
+.option-list {
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+}
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.option:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.option small {
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* 안전 확인 체크 항목 */
+.check-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  min-height: 52px;
+  padding: 0.8rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+  cursor: pointer;
+}
+.check-option input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 0.1rem 0 0;
+  accent-color: var(--danger);
+}
+.check-option:has(input:checked) {
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+}
+
+/* 진단 결과 */
+.result-head {
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--ok);
+  border-radius: var(--radius);
+}
+.result-head__kicker {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ok);
+}
+.result-head h2 {
+  margin: 0.15rem 0 0.5rem;
+  font-size: 1.3rem;
+}
+.result-head p:last-child {
+  margin: 0;
+  color: var(--text-muted);
+}
+.result-head[data-level='MONITOR'] {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+.result-head[data-level='MONITOR'] .result-head__kicker {
+  color: var(--accent);
+}
+.result-head[data-level='SERVICE_RECOMMENDED'] {
+  border-left-color: var(--warn);
+  background: var(--warn-bg);
+}
+.result-head[data-level='SERVICE_RECOMMENDED'] .result-head__kicker {
+  color: var(--warn);
+}
+.result-head[data-level='STOP_USE'] {
+  border-left-color: var(--danger);
+  background: var(--danger-bg);
+}
+.result-head[data-level='STOP_USE'] .result-head__kicker {
+  color: var(--danger);
+}
+
+.result-section {
+  margin-top: 1.75rem;
+}
+.result-section h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.12rem;
+}
+
+.answer-trail {
+  list-style: none;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+.answer-trail li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.answer-trail .q {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+.answer-trail .a {
+  font-weight: 600;
+}
+@media (min-width: 600px) {
+  .answer-trail li {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  .answer-trail .a {
+    text-align: right;
+  }
+}
+
+/* ── 폼 ──────────────────────────────────────────────────── */
+
+.field {
+  margin-bottom: 1.15rem;
+}
+.field label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+.field input,
+.field select,
+.field textarea {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.7rem 0.85rem;
+  font-family: inherit;
+  /* 16px 미만이면 iOS 사파리가 입력 시 화면을 확대한다. */
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+.field textarea {
+  min-height: 9.5rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+.field__hint {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* 스팸 방지용 숨김 항목. 화면에 보이면 안 된다. */
+.hp-field {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── 확인 자료 / 용어 목록 / 표 ──────────────────────────── */
+
+.sources {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.sources h2 {
+  margin-top: 0;
+  font-size: 1.15rem;
+}
+.sources ul {
+  padding-left: 1.1rem;
+}
+.sources li {
+  margin-bottom: 0.6rem;
+  overflow-wrap: anywhere;
+}
+.checked-at {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+h3 > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.def-list {
+  margin: 1rem 0;
+}
+.def-list dt {
+  margin-top: 1.1rem;
+  font-weight: 700;
+}
+.def-list dd {
+  margin: 0.3rem 0 0;
+  color: var(--text-muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (prefers-reduced-motion: reduce) {
