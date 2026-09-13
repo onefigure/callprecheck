@@ -41,7 +41,16 @@ if (root) {
 
 function init(mount: HTMLElement) {
   const relatedGuides = readRelatedGuides();
-  const params = new URLSearchParams(window.location.search);
+
+  // 제품·증상 선택값은 URL 조각(#)으로 받는다.
+  // 조각은 브라우저가 서버로 보내지 않으므로, 어떤 증상을 골랐는지가
+  // 서버 접속 기록에 남지 않는다. (쿼리스트링이면 남는다)
+  // 예: /diagnosis/#product=washer&symptom=spin-fail
+  //
+  // 예전에 만들어진 쿼리스트링 링크(북마크 등)도 계속 동작하도록
+  // 조각이 비어 있을 때만 쿼리스트링을 읽는다.
+  const hash = window.location.hash.replace(/^#/, '');
+  const params = new URLSearchParams(hash || window.location.search);
 
   // 홈에서 제품·증상을 고르고 들어올 수 있다.
   // 어떤 경우에도 Step 0(안전 확인)은 건너뛰지 않는다.

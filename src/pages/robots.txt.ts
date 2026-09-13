@@ -5,8 +5,8 @@ import { FLAGS, SITE } from '../consts';
  * robots.txt
  *
  * 크롤러를 차단하지 않는다.
- * - /diagnosis/?product=... 같은 파라미터 변형은 Disallow 로 막지 않고
- *   canonical(/diagnosis/) 과 sitemap 미포함으로 정리한다.
+ * - 제품·증상 선택값은 URL 조각(#)으로 전달하므로 서버 요청과 색인 대상에
+ *   애초에 포함되지 않는다. 별도로 막을 경로가 없다.
  * - 진단 결과는 별도 URL 이 없으며, 결과가 표시되는 동안에만 noindex 가 적용된다.
  */
 export const GET: APIRoute = ({ site }) => {

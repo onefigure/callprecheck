@@ -32,7 +32,7 @@ const previews = PRODUCT_FLOWS.map((product) => ({
               {question.options.map((option) => (
                 <a
                   class="qpreview__option"
-                  href={`/diagnosis/?product=${product.id}&symptom=${symptom.id}&a_${question.id}=${option.id}`}
+                  href={`/diagnosis/#product=${product.id}&symptom=${symptom.id}&a_${question.id}=${option.id}`}
                   data-preview-answer
                   data-preview-product={product.id}
                   data-preview-symptom={symptom.id}

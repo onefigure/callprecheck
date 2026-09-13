@@ -23,7 +23,7 @@ next_questions:
   - label: 물은 빠졌는데 탈수가 안 된다면 — 탈수 증상 가이드 보기
     href: /washer/spin-not-working/
   - label: 배수 중 이상한 소리가 난다면 — 소음·진동 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=washer&symptom=vibration
+    href: /diagnosis/#product=washer&symptom=vibration
   - label: 반복해서 재발한다면 — 수리할까 교체할까
     href: /repair-or-replace/
 ---

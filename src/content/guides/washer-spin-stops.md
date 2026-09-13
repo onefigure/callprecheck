@@ -22,7 +22,7 @@ next_questions:
   - label: 물이 남아 있다면 — 배수 가이드 보기
     href: /washer/not-draining/
   - label: 멈출 때 큰 소리가 난다면 — 소음·진동 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=washer&symptom=vibration
+    href: /diagnosis/#product=washer&symptom=vibration
 ---
 
 탈수 도중 세탁기가 멈췄다 다시 돌고, 남은 시간이 10분에서 갑자기 30분으로 늘어나는 경험은 흔합니다. 그런데 이 증상은 **상당수가 고장이 아닙니다.**

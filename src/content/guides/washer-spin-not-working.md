@@ -21,9 +21,9 @@ cost_confidence: unknown
 author: 부르기전에 편집팀
 next_questions:
   - label: 물이 안 빠지는 쪽이 문제 같다면 — 배수 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=washer&symptom=drain-fail
+    href: /diagnosis/#product=washer&symptom=drain-fail
   - label: 빈 통에서도 소리가 났다면 — 소음·진동 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=washer&symptom=vibration
+    href: /diagnosis/#product=washer&symptom=vibration
   - label: 수리비를 듣고 나서 판단해야 한다면 — 수리할까 교체할까
     href: /repair-or-replace/
 ---

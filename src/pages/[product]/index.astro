@@ -40,7 +40,7 @@ const listClass = {
   {hub.intro.map((p) => <p>{p}</p>)}
 
   <p>
-    <a class="btn" href={`/diagnosis/?product=${hub.id}`}>{hub.label} 증상 확인하기</a>
+    <a class="btn" href={`/diagnosis/#product=${hub.id}`}>{hub.label} 증상 확인하기</a>
   </p>
 
   {
@@ -107,7 +107,7 @@ const listClass = {
   <section>
     <h2>다음 단계</h2>
     <ul>
-      <li><a href={`/diagnosis/?product=${hub.id}`}>{hub.label} 고장 진단 시작하기</a></li>
+      <li><a href={`/diagnosis/#product=${hub.id}`}>{hub.label} 고장 진단 시작하기</a></li>
       <li><a href="/repair-or-replace/">수리할지 교체할지 판단 기준 보기</a></li>
       <li><a href="/safety/">안전 안내에서 확인 가능한 범위 보기</a></li>
     </ul>

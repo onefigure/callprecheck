@@ -20,7 +20,7 @@ next_questions:
   - label: 소리와 함께 냉각도 약하다면 — 냉장고가 안 시원할 때 가이드 보기
     href: /refrigerator/not-cold/
   - label: 냉동만 되고 냉장이 안 된다면 — 해당 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=refrigerator&symptom=freezer-ok-fridge-not
+    href: /diagnosis/#product=refrigerator&symptom=freezer-ok-fridge-not
   - label: 사용한 지 오래됐다면 — 수리할까 교체할까
     href: /repair-or-replace/
 ---

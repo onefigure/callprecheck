@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_ANALYTICS_ID?: string;
   readonly PUBLIC_ENABLE_ADS?: string;
   readonly PUBLIC_ADSENSE_CLIENT?: string;
+  readonly PUBLIC_ADSENSE_ACCOUNT?: string;
   readonly PUBLIC_NOINDEX_ALL?: string;
 }
 

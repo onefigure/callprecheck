@@ -122,8 +122,19 @@ const robots = noindex || FLAGS.noindexAll ? 'noindex,follow' : 'index,follow';
     }
 
     {
-      /* AdSense: Phase 1 에서는 PUBLIC_ENABLE_ADS=false 이므로 출력되지 않는다.
-         승인 신청 단계에서만 환경변수를 켠다. 빈 광고 영역은 어디에도 두지 않는다. */
+      /* AdSense 사이트 소유권 확인용 메타태그.
+         광고 스크립트를 로드하지 않고 심사 연결만 할 때 쓴다.
+         값이 비어 있으면 태그 자체가 출력되지 않는다. */
+    }
+    {
+      FLAGS.adsenseAccount && (
+        <meta name="google-adsense-account" content={FLAGS.adsenseAccount} />
+      )
+    }
+
+    {
+      /* AdSense 광고 스크립트: PUBLIC_ENABLE_ADS=true 이고 게시자 ID 가 있을 때만
+         출력된다. 위 소유권 확인 태그와는 독립적이며, 빈 광고 영역은 두지 않는다. */
     }
     {
       FLAGS.ads && (

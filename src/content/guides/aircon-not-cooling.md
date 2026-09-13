@@ -18,9 +18,9 @@ cost_confidence: unknown
 author: 부르기전에 편집팀
 next_questions:
   - label: 실외기가 멈춰 있는 것 같다면 — 실외기 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=aircon&symptom=outdoor-unit
+    href: /diagnosis/#product=aircon&symptom=outdoor-unit
   - label: 바람은 나오는데 예전만 못하다면 — 냉방 약함 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=aircon&symptom=weak-cooling
+    href: /diagnosis/#product=aircon&symptom=weak-cooling
   - label: 설치 연도가 오래됐다면 — 수리할까 교체할까
     href: /repair-or-replace/
 ---

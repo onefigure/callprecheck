@@ -5,7 +5,7 @@ import { PRODUCT_FLOWS } from '../data/diagnosis';
  * 홈 첫 화면의 진단 시작 지점.
  *
  * 홈에서는 진단을 끝내지 않는다. 제품과 첫 증상만 고르고
- * /diagnosis/?product=..&symptom=.. 로 이어지며, 안전 확인(Step 0)은
+ * /diagnosis/#product=..&symptom=.. 로 이어지며, 안전 확인(Step 0)은
  * 진단 페이지에서 그대로 가장 먼저 수행된다.
  *
  * 자바스크립트가 없으면 세 제품의 목록이 모두 보이고 링크도 그대로 동작한다.
@@ -46,14 +46,14 @@ import { PRODUCT_FLOWS } from '../data/diagnosis';
       >
         <h3 class="picker__panel-title">{product.label}</h3>
         <p class="picker__lead">
-          고르면 안전 확인부터 순서대로 진행합니다. 입력한 내용은 저장되지 않습니다.
+          고르면 안전 확인부터 순서대로 진행합니다. 고른 내용은 저장되지 않습니다.
         </p>
         <ul class="picker__list">
           {product.symptoms.map((symptom) => (
             <li>
               <a
                 class="picker__symptom"
-                href={`/diagnosis/?product=${product.id}&symptom=${symptom.id}`}
+                href={`/diagnosis/#product=${product.id}&symptom=${symptom.id}`}
                 data-symptom={symptom.id}
                 data-symptom-product={product.id}
               >

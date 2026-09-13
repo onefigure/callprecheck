@@ -53,7 +53,8 @@ npm run images   # public/ 의 파비콘·로고·OG 이미지 재생성
 | `PUBLIC_ENABLE_ANALYTICS` | `false` | `true` 일 때만 분석 스크립트 로드 |
 | `PUBLIC_ANALYTICS_ID` | (없음) | 측정 ID |
 | `PUBLIC_ENABLE_ADS` | `false` | **Phase 1에서는 반드시 false** |
-| `PUBLIC_ADSENSE_CLIENT` | (없음) | AdSense 게시자 ID |
+| `PUBLIC_ADSENSE_CLIENT` | (없음) | AdSense 게시자 ID (광고 스크립트용) |
+| `PUBLIC_ADSENSE_ACCOUNT` | (없음) | AdSense 소유권 확인 메타태그 값. **광고 스크립트 없이 심사 연결만** 할 때 사용 |
 | `PUBLIC_NOINDEX_ALL` | `false` | `true` 면 전 페이지 noindex + robots.txt 전체 차단. 임시 주소 운영용 |
 
 `PUBLIC_ENABLE_ADS` 와 `PUBLIC_ADSENSE_CLIENT` 가 **둘 다** 설정된 경우에만 AdSense 스크립트가 출력됩니다. 광고 슬롯(빈 광고 박스)은 어떤 페이지에도 없습니다.
@@ -157,6 +158,17 @@ AdSense 는 본인이 소유한 도메인을 요구하므로, 신청은 실제 �
 - **HTML 메타태그 방식**: Workers Builds 의 Build variables 에 `PUBLIC_GSC_VERIFICATION` 값을 넣고 재배포하면 모든 페이지 `<head>` 에 메타태그가 출력됩니다.
 
 등록 후 사이트맵으로 `https://callprecheck.com/sitemap.xml` 을 제출합니다.
+
+### AdSense 신청 전에 해야 할 것
+
+광고 스크립트를 켜기 **전에** 아래를 먼저 끝냅니다.
+
+1. **개인정보처리방침** — 이미 AdSense 기준으로 작성되어 있습니다. Google·제3자 쿠키, 웹 비콘, IP 주소, 맞춤광고 거부 방법(myadcenter.google.com, optout.aboutads.info), EEA·영국·스위스 동의 안내가 포함되어 있습니다. 광고 게재를 실제로 시작하는 시점에 `/privacy/` 의 "현재 게재 상태" 항목과 시행일을 갱신하세요.
+2. **소유권 확인** — `PUBLIC_ADSENSE_ACCOUNT` 에 게시자 ID(`ca-pub-…`)를 넣으면 `<meta name="google-adsense-account">` 만 출력됩니다. **광고 스크립트는 로드되지 않습니다.** 심사 연결만 하고 사이트는 그대로 두는 방식입니다.
+3. **CMP 설정** — AdSense 대시보드의 **Privacy & messaging → European regulations** 에서 메시지를 만들어 둡니다. 승인 직후 자동 광고가 켜질 수 있으므로 신청 전에 준비하는 편이 안전합니다.
+4. 승인 후 광고를 실제로 켤 때만 `PUBLIC_ENABLE_ADS=true` + `PUBLIC_ADSENSE_CLIENT` 를 설정합니다.
+
+`PUBLIC_ADSENSE_ACCOUNT` 와 `PUBLIC_ENABLE_ADS` 는 서로 독립적입니다. 전자만 넣으면 광고는 나가지 않습니다.
 
 ### 이 설정이 지켜 주는 것
 
@@ -310,7 +322,7 @@ draft: false                    # true 면 빌드에서 제외
 | --- | --- |
 | 진단 **결과** 화면 | 결과가 표시되는 동안 `<meta name="robots">` 를 `noindex,follow` 로 바꾸고 `data-nosnippet` 을 붙입니다. 뒤로 가면 다시 `index,follow` 로 돌아옵니다. |
 | 진단 결과 URL | 결과는 **별도 URL 을 만들지 않습니다**. 초기 HTML 에는 결과가 존재하지 않습니다. |
-| `/diagnosis/?product=...&symptom=...` | 홈에서 제품·증상을 고르고 진입하는 경로입니다. canonical 이 항상 `/diagnosis/` 를 가리키고 sitemap 에 포함하지 않습니다. |
+| `/diagnosis/#product=...` | 홈에서 고른 제품·증상은 **URL 조각(#)** 으로 전달합니다. 조각은 브라우저가 서버로 보내지 않으므로 접속 기록에도 남지 않고, 색인 대상도 아닙니다. |
 | `/404.html` | `noindex,follow` |
 
 robots.txt 로 차단하는 경로는 없습니다.

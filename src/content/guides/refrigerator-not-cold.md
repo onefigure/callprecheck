@@ -21,9 +21,9 @@ cost_confidence: unknown
 author: 부르기전에 편집팀
 next_questions:
   - label: 냉동은 되는데 냉장만 안 된다면 — 해당 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=refrigerator&symptom=freezer-ok-fridge-not
+    href: /diagnosis/#product=refrigerator&symptom=freezer-ok-fridge-not
   - label: 냉장·냉동이 모두 안 된다면 — 해당 증상으로 진단 질문 진행하기
-    href: /diagnosis/?product=refrigerator&symptom=both-fail
+    href: /diagnosis/#product=refrigerator&symptom=both-fail
   - label: 사용한 지 오래됐다면 — 수리할까 교체할까
     href: /repair-or-replace/
 ---

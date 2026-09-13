@@ -91,6 +91,12 @@ export const FLAGS = {
     import.meta.env.PUBLIC_ENABLE_ADS === 'true' &&
     Boolean(import.meta.env.PUBLIC_ADSENSE_CLIENT),
   adsenseClient: import.meta.env.PUBLIC_ADSENSE_CLIENT || '',
+  /**
+   * AdSense 사이트 소유권 확인용 메타태그 값 (예: ca-pub-0000000000000000).
+   * 광고 스크립트를 로드하지 않고 심사 연결만 하기 위한 항목이다.
+   * 광고를 실제로 켜는 것은 PUBLIC_ENABLE_ADS 이며 서로 독립적이다.
+   */
+  adsenseAccount: import.meta.env.PUBLIC_ADSENSE_ACCOUNT || '',
   analytics:
     import.meta.env.PUBLIC_ENABLE_ANALYTICS === 'true' &&
     Boolean(import.meta.env.PUBLIC_ANALYTICS_ID),
