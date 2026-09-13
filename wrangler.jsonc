@@ -24,11 +24,13 @@
     "not_found_handling": "404-page"
   },
 
-  // <name>.<subdomain>.workers.dev 주소로 접속 가능하게 합니다.
-  "workers_dev": true,
+  // 운영은 callprecheck.com(커스텀 도메인)으로만 서비스합니다.
+  // workers.dev 주소를 열어 두면 같은 내용이 두 호스트에서 응답해
+  // 검색엔진이 중복 콘텐츠로 볼 수 있어 닫아 둡니다.
+  "workers_dev": false,
 
-  // 커밋별 Preview URL(<version>-<name>.<subdomain>.workers.dev)을 활성화합니다.
-  "preview_urls": true,
+  // 커밋별 Preview URL 도 같은 이유로 닫아 둡니다.
+  "preview_urls": false,
 
   "observability": {
     "enabled": true
