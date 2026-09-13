@@ -67,7 +67,7 @@ const articleSchema = {
   schema={[articleSchema]}
 >
   <p class="meta-line">
-    <span class={`badge ${safety.badge}`.trim()}>{safety.text}</span>
+    <span class={`badge ${safety.badge}`.trim()}>안전 수준: {safety.text}</span>
     <span class={`badge ${cost.badge}`.trim()}>비용 근거: {cost.text}</span>
     <span>최종 검토일 {fmt(entry.data.last_reviewed)}</span>
     <span>작성 {entry.data.author}</span>
