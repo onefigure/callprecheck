@@ -12,6 +12,10 @@
   "name": "callprecheck",
   "compatibility_date": "2026-09-12",
 
+  // 로그인된 Cloudflare 계정이 둘 이상이면 비대화형 배포가 계정을 고르지 못하고
+  // 멈춥니다. 이 워커가 실제로 올라가 있는 계정을 고정해 둡니다.
+  "account_id": "ad4f9dd7475310233a2631e40ae90670",
+
   "assets": {
     "directory": "./dist",
 
